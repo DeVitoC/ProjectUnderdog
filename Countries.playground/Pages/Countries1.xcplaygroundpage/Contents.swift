@@ -15,11 +15,15 @@ guard let content = try? String(contentsOfFile: path) else { fatalError("content
 
 let words = content.components(separatedBy: .newlines)
 
-var wordsWithUnited: [String] = []
-for word in words {
-    if word.contains("United") {
-        wordsWithUnited.append(word)
-    }
-}
+let wordsWithUnited: [String] = words.filter({ word in
+    return word.contains("United")
+})
+
+//var wordsWithUnited: [String] = []
+//for word in words {
+//    if word.contains("United") {
+//        wordsWithUnited.append(word)
+//    }
+//}
 
 print(wordsWithUnited)
