@@ -1,29 +1,38 @@
 import UIKit
-
+Character(",").isLowercase
+Character(",").isUppercase
 //let alphabet = "abcdefghijklmnopqrstuvwxyz"
-let alphabet: [String] = "abcdefghijklmnopqrstuvwxyz"
-                         .map { String($0) }
+let alphabet = "abcdefghijklmnopqrstuvwxyz"
+                         .map { $0 }
 //let upperAlphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+//                         .map { String($0) }
 
 func rot(inputString: String, shift: Int) -> String {
-    var alphaNumDict: [String: Int] = [:]
-    var numAlphaDict: [Int: String] = [:]
+    var alphaNumDict: [Character: Int] = [:]
+//    var numAlphaDict: [Int: String] = [:]
     for (index, char) in alphabet.enumerated() {
-        alphaNumDict[String(char)] = index
-        numAlphaDict[index] = String(char)
+        alphaNumDict[char] = index
+//        numAlphaDict[index] = String(char)
     }
 
     var resultString = ""
     for char in inputString {
-        guard let num = alphaNumDict[String(char)] else { continue }
+        guard let num = alphaNumDict[Character(char.lowercased())] else {
+            resultString.append(char)
+            continue
+        }
         let targetCharNum = convert(sourceIndex: num, shift: shift)
-
-        let resultChar = numAlphaDict[targetCharNum]! // This should always have a value in my dict
-        resultString.append(resultChar)
+        let resultChar = alphabet[targetCharNum] // This should always have a value in my dict
+        if char.isLowercase {
+            resultString.append(resultChar)
+        } else {
+            resultString.append(resultChar.uppercased())
+        }
     }
     return resultString
 }
 
+// My implementation
 func convert(sourceIndex: Int, shift: Int) -> Int {
     print("sourceIndex: \(sourceIndex), shift: \(shift)")
     let remainder = shift % alphabet.count
@@ -41,6 +50,8 @@ func convert(sourceIndex: Int, shift: Int) -> Int {
     return resultNum
 }
 
+
+// Jared's Implemention
 func targetIndex(sourceIndex: Int, shift: Int) -> Int {
     let moduloShift = shift % alphabet.count
 
@@ -63,7 +74,7 @@ func targetIndex(sourceIndex: Int, shift: Int) -> Int {
     }
 }
 
-//let resultString = rot(inputString: "test", shift: -25)
-//print(resultString)
+let resultString = rot(inputString: "Test, 1", shift: 25)
+print(resultString)
 //(27).truncatingRemainder(dividingBy: 26)
 print(convert(sourceIndex: 0, shift: -131))
